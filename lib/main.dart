@@ -1,12 +1,22 @@
 import 'package:doro/pages/bottomMenu.dart';
 import 'package:doro/pages/login.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'utils/colors.dart';
 
-void main() => runApp(const MyApp());
+
+
+
+
+
+void main() async {
+
+runApp(const MyApp());
+
+}
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -18,6 +28,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool isLoggedIn = false;
   Widget redir = Login();
+
+
   Future<void> checkIfUserLoggedIn() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token') ?? false;
@@ -35,6 +47,8 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     checkIfUserLoggedIn();
   }
+
+
 
   @override
   Widget build(BuildContext context) {
