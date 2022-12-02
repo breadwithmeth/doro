@@ -1,4 +1,5 @@
 import 'package:doro/pages/news.dart';
+import 'package:doro/pages/profile.dart';
 import 'package:doro/pages/qr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -20,10 +21,7 @@ class _BottomMenuState extends State<BottomMenu> {
       "widget": QR(),
     },
     {
-      "widget": Icon(
-        Icons.home,
-        size: 150,
-      ),
+      "widget": Profile(),
       "title": "Мой профиль"
     },
   ];

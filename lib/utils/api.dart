@@ -30,7 +30,7 @@ Future<Map<String, dynamic>> sendQR(String qr) async {
   var url = Uri.https(URL_API, '/api/qr/sendQR.php');
   var response = await http.post(
     url,
-    body: json.encode({"qr_uuid": qr}),
+    body: json.encode({"qr_uuid": "$qr"}),
     headers: {
       "Content-Type": "application/json",
       "AUTH": prefs.getString('token')!
@@ -73,4 +73,49 @@ Future<int> buyService(String service_id) async {
   // print(response.body);
   return response.statusCode;
 }
+
+Future<Map<String, dynamic>> getCustomer() async {
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/customer/getCustomer.php');
+  var response = await http.post(
+    url,
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
+
+  // List<dynamic> list = json.decode(response.body);
+  Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+  return data;
+}
+
+Future<List?> getTrainings() async {
+  List<dynamic>? list = [];
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/training/getTrainings.php');
+  var response = await http.post(
+    url,
+    body: json.encode({
+      'today': true,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
+
+  // List<dynamic> list = json.decode(response.body);
+  if (response.body.isNotEmpty) {
+    list = json.decode(utf8.decode(response.bodyBytes));
+  } else {
+    list = null;
+  }
+
+  return list;
+}
+
+
+
+
 // {"service_id":"3","name":"123","description":"1234","area_id":"1","provider_id":"2","worker_id":"1","service_timestamp":"2022-11-24 16:09:42","category_id":"3","provider_fee":"0","isDeleted":"0","price":"12","validity":"1","amount_of_customers":"13","type":"sell_service"}

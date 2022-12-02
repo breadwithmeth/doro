@@ -1,0 +1,188 @@
+import 'dart:ui';
+
+import 'package:doro/pages/servicePage.dart';
+import 'package:doro/utils/api.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+
+class Profile extends StatefulWidget {
+  const Profile({super.key});
+
+  @override
+  State<Profile> createState() => _ProfileState();
+}
+
+class _ProfileState extends State<Profile> {
+  Widget trainings = Text("На сегодня нет тренировок");
+
+  Map<String, dynamic> data = {};
+  Widget photo = CircleAvatar(
+    child: Icon(Icons.photo_camera_outlined),
+  );
+  @override
+  void initState() {
+    // TODO: implement initState
+    getCustomerInfo();
+    buildTrainings();
+    super.initState();
+  }
+
+  Future<void> getCustomerInfo() async {
+    Map<String, dynamic> response = await getCustomer();
+
+    setState(() {
+      data = response;
+      if (response['photo'] != null) {
+        photo = CircleAvatar(
+          radius: 60,
+          backgroundImage: NetworkImage(response['photo']),
+        );
+      }
+      print(data);
+    });
+  }
+
+  Future<void> buildTrainings() async {
+    List<dynamic>? res = await getTrainings();
+    List<Widget> listOfTrainings = [];
+    print(res);
+    if (res != null) {
+      res.forEach((element) {
+
+        print(element);
+        print(element["training_id"]);
+        listOfTrainings.add(Container(
+            height: 60,
+            decoration: BoxDecoration(
+                gradient:
+                    LinearGradient(begin: Alignment.center, colors: <Color>[
+                  Color.fromARGB(24, 222, 231, 247),
+                  Color.fromARGB(49, 202, 219, 247),
+                ]),
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(60),
+                    bottomRight: Radius.circular(60))),
+            margin: EdgeInsets.symmetric(vertical: 2),
+            padding: EdgeInsets.all(7),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      element["name"],
+                      style:
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                    ),
+                    Row(
+                      children: [
+                        Text(element["training_start"] +
+                            "-" +
+                            element["training_end"]),
+                      ],
+                    )
+                  ],
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                               TrainingPage(Training: element)),
+                    );
+                  },
+                  icon: Icon(Icons.arrow_forward_ios_rounded),
+                )
+              ],
+            )));
+      });
+      setState(() {
+        trainings = Column(
+          children: listOfTrainings,
+        );
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: ListView(shrinkWrap: true, padding: EdgeInsets.all(10), children: [
+        SizedBox(
+          height: 40,
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            photo,
+            SizedBox(
+              height: 20,
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  data['last_name'] ?? "",
+                  style: TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
+                ),
+                Text(data['first_name'] ?? "",
+                    style:
+                        TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
+                SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: const StadiumBorder(),
+                      backgroundColor: Colors.amber),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.settings_sharp,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        " Настройки",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white),
+                      )
+                    ],
+                  ),
+                  onPressed: () {},
+                ),
+              ],
+            )
+          ],
+        ),
+        Card(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Предстоящие тренировки",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                ),
+                trainings
+              ],
+            ),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+        )
+      ]),
+    );
+  }
+}

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:doro/pages/buyService.dart';
+import 'package:doro/pages/joinTraining.dart';
 import 'package:doro/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -38,6 +39,17 @@ class _QRState extends State<QR> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => BuyService(
+                        data: data,
+                      ),
+                    ),
+                  );
+                } else if (data['qr_type'] == "start_training") {
+                  print(data);
+                  cameraController.stop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => JoinTraining(
                         data: data,
                       ),
                     ),
