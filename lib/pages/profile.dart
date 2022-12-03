@@ -15,6 +15,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   Widget trainings = Text("На сегодня нет тренировок");
+  Widget services = Text("Нет абониментов");
 
   Map<String, dynamic> data = {};
   Widget photo = CircleAvatar(
@@ -25,6 +26,7 @@ class _ProfileState extends State<Profile> {
     // TODO: implement initState
     getCustomerInfo();
     buildTrainings();
+    buildServices();
     super.initState();
   }
 
@@ -46,12 +48,10 @@ class _ProfileState extends State<Profile> {
   Future<void> buildTrainings() async {
     List<dynamic>? res = await getTrainings();
     List<Widget> listOfTrainings = [];
-    print(res);
+
     if (res != null) {
       res.forEach((element) {
 
-        print(element);
-        print(element["training_id"]);
         listOfTrainings.add(Container(
             height: 60,
             decoration: BoxDecoration(
@@ -93,7 +93,7 @@ class _ProfileState extends State<Profile> {
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                               TrainingPage(Training: element)),
+                              TrainingPage(Training: element)),
                     );
                   },
                   icon: Icon(Icons.arrow_forward_ios_rounded),
@@ -102,9 +102,71 @@ class _ProfileState extends State<Profile> {
             )));
       });
       setState(() {
-        trainings = Column(
-          children: listOfTrainings,
-        );
+        if (listOfTrainings.length != 0) {
+          trainings = Column(
+            children: listOfTrainings,
+          );
+        }
+      });
+    }
+  }
+
+  Future<void> buildServices() async {
+    List<dynamic>? res = await getServices();
+    List<Widget> listOfServices = [];
+    print(res);
+    if (res != null) {
+      res.forEach((element) {
+        print(element);
+        listOfServices.add(Container(
+            height: 60,
+            decoration: BoxDecoration(
+                gradient:
+                    LinearGradient(begin: Alignment.center, colors: <Color>[
+                  Color.fromARGB(24, 222, 231, 247),
+                  Color.fromARGB(49, 202, 219, 247),
+                ]),
+                borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(60),
+                    bottomRight: Radius.circular(60))),
+            margin: EdgeInsets.symmetric(vertical: 2),
+            padding: EdgeInsets.all(7),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      element["name"],
+                      style:
+                          TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                    ),
+
+                  ],
+                ),
+                IconButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              TrainingPage(Training: element)),
+                    );
+                  },
+                  icon: Icon(Icons.arrow_forward_ios_rounded),
+                )
+              ],
+            )));
+      });
+      setState(() {
+        if (listOfServices.length != 0) {
+          services = Column(
+            children: listOfServices,
+          );
+        }
       });
     }
   }
@@ -137,29 +199,29 @@ class _ProfileState extends State<Profile> {
                 SizedBox(
                   height: 10,
                 ),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shape: const StadiumBorder(),
-                      backgroundColor: Colors.amber),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.settings_sharp,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        " Настройки",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      )
-                    ],
-                  ),
-                  onPressed: () {},
-                ),
+                // ElevatedButton(
+                //   style: ElevatedButton.styleFrom(
+                //       shape: const StadiumBorder(),
+                //       backgroundColor: Colors.amber),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     mainAxisSize: MainAxisSize.min,
+                //     children: [
+                //       Icon(
+                //         Icons.settings_sharp,
+                //         color: Colors.white,
+                //       ),
+                //       Text(
+                //         " Настройки",
+                //         style: TextStyle(
+                //             fontSize: 15,
+                //             fontWeight: FontWeight.w700,
+                //             color: Colors.white),
+                //       )
+                //     ],
+                //   ),
+                //   onPressed: () {},
+                // ),
               ],
             )
           ],
@@ -175,6 +237,24 @@ class _ProfileState extends State<Profile> {
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                 ),
                 trainings
+              ],
+            ),
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
+        ),
+        Card(
+          child: Container(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Ваши Абонименты",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                ),
+                services
               ],
             ),
           ),

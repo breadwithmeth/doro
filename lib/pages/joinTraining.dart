@@ -49,7 +49,7 @@ class _JoinTrainingState extends State<JoinTraining> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(widget.data['name'],
+                  Text(widget.data['name'] ?? "213",
                       style: TextStyle(
                           fontSize: 60,
                           fontWeight: FontWeight.w900,
@@ -57,15 +57,12 @@ class _JoinTrainingState extends State<JoinTraining> {
                 ],
               ),
             ),
-            RowNameValue("Название услуги", widget.data["name"]),
-            RowNameValue("name", widget.data["name"]),
-            RowNameValue("name", widget.data["name"]),
-            RowNameValue("name", widget.data["name"]),
-            RowNameValue("name", widget.data["name"]),
+            RowNameValue("Название услуги", widget.data["name"] ?? ""),
+            RowNameValue("name", widget.data["training_id"] ?? ""),
             Spacer(),
             TextButton(
                 onPressed: (() async {
-                  int status = await buyService(widget.data["service_id"]);
+                  int status = await joinTraining(widget.data["training_id"]);
                   if (status != 200) {
                     Navigator.push(
                       context,

@@ -22,7 +22,8 @@ class _BottomMenuState extends State<BottomMenu> {
     },
     {
       "widget": Profile(),
-      "title": "Мой профиль"
+      "title": "Мой профиль",
+      "actions": [IconButton(onPressed: null, icon: Icon(Icons.settings))]
     },
   ];
   int _selectedIndex = 0; //New
@@ -40,15 +41,19 @@ class _BottomMenuState extends State<BottomMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //     backgroundColor: Color(0xFFf3f3f3),
-      //     title: Container(
-      //   child: Text(_pages[_selectedIndex]["title"], style: TextStyle(color: dark_background),),
-      // )),
+      appBar: AppBar(
+          actions: _pages[_selectedIndex]["actions"],
+          shape: ContinuousRectangleBorder(
+            borderRadius: BorderRadius.circular(10)
+          ),
+          backgroundColor: Color(0xFFf3f3f3),
+          title: Container(
+        child: Text(_pages[_selectedIndex]["title"], style: TextStyle(color: Colors.black),),
+      )),
       bottomNavigationBar: Container(
         padding: EdgeInsets.symmetric(vertical: 0, horizontal: 0),
         decoration: BoxDecoration(
-            color: Colors.transparent,
+            color: Colors.white,
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.1),

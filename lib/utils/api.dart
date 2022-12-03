@@ -38,6 +38,7 @@ Future<Map<String, dynamic>> sendQR(String qr) async {
   );
 
   Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+  print(data);
   return data;
 }
 
@@ -115,7 +116,46 @@ Future<List?> getTrainings() async {
   return list;
 }
 
+Future<List?> getServices() async {
+  List<dynamic>? list = [];
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/service/getServices.php');
+  var response = await http.post(
+    url,
+    body: json.encode({
+      'today': true,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
 
+  // List<dynamic> list = json.decode(response.body);
+  if (response.body.isNotEmpty) {
+    list = json.decode(utf8.decode(response.bodyBytes));
+  } else {
+    list = null;
+  }
+  print(response.statusCode);
+  return list;
+}
+
+Future<int> joinTraining(String training_id) async {
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/training/joinTraining.php');
+  var response = await http.post(
+    url,
+    body: json.encode({"training_id": training_id}),
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
+  print(response.statusCode);
+  // print(response.body);
+  return response.statusCode;
+}
 
 
 // {"service_id":"3","name":"123","description":"1234","area_id":"1","provider_id":"2","worker_id":"1","service_timestamp":"2022-11-24 16:09:42","category_id":"3","provider_fee":"0","isDeleted":"0","price":"12","validity":"1","amount_of_customers":"13","type":"sell_service"}
