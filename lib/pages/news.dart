@@ -33,7 +33,7 @@ class _NewsState extends State<News> {
           itemCount: news.length,
           itemBuilder: ((context, index) {
             return Container(
-              margin: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
+              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 4),
               padding: EdgeInsets.all(5),
               decoration: BoxDecoration(
                 color: primary_background,

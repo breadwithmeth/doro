@@ -55,7 +55,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         theme: ThemeData(
           fontFamily: 'Roboto',
-          scaffoldBackgroundColor: dark_background,
+          scaffoldBackgroundColor: Colors.grey[50],
           primaryColor: Color(0xFFfbb80f),
           primaryIconTheme: IconThemeData(color: Color(0xFFfbb80f)),
           elevatedButtonTheme: ElevatedButtonThemeData(
