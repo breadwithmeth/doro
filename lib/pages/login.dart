@@ -13,6 +13,7 @@ class Login extends StatefulWidget {
   State<Login> createState() => _LoginState();
 }
 
+
 class _LoginState extends State<Login> {
   final login = TextEditingController();
   final password = TextEditingController();
@@ -37,8 +38,8 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Вход",
-                    style: TextStyle(fontWeight: FontWeight.w900, fontSize: 40),
+                    "D`oro",
+                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 40, fontFamily: "Raleway",),
                   )
                 ],
               ),
@@ -46,7 +47,7 @@ class _LoginState extends State<Login> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Text(
-                    "Войдите чтобы тыгыгыгыгыгы",
+                    "Войдите чтобы использовать сервисы Доро",
                     style: TextStyle(fontWeight: FontWeight.w300, fontSize: 15),
                   )
                 ],
@@ -98,7 +99,7 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 10,
                   ),
-                  ElevatedButton(
+                  TextButton(
                     onPressed: () async {
                       Future<bool> isLoggedIn =
                           loginClient(login.text, password.text);
@@ -111,18 +112,21 @@ class _LoginState extends State<Login> {
                       print(login.text);
                     },
                     child: Container(
-                        width: MediaQuery.of(context).size.width * 0.4,
+                        decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.all(Radius.circular(10)), gradient: LinearGradient(colors: [Color(0xFFFDC830), Color(0xFFF37335)])),
+                        // width: MediaQuery.of(context).size.width * 0.4,
                         padding: EdgeInsets.all(10),
                         child: Row(
+
                           children: [
                             Text(
                               "Войти",
                               style: TextStyle(
                                   color: Color(0xFFffffff), fontSize: 20),
-                            )
+                            ),
+                            Icon(Icons.arrow_forward, color: Colors.white,)
                           ],
                           mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                         )),
                   )

@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:doro/pages/servicePage.dart';
+import 'package:doro/pages/settings.dart';
 import 'package:doro/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -199,29 +200,7 @@ class _ProfileState extends State<Profile> {
                 SizedBox(
                   height: 10,
                 ),
-                // ElevatedButton(
-                //   style: ElevatedButton.styleFrom(
-                //       shape: const StadiumBorder(),
-                //       backgroundColor: Colors.amber),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     mainAxisSize: MainAxisSize.min,
-                //     children: [
-                //       Icon(
-                //         Icons.settings_sharp,
-                //         color: Colors.white,
-                //       ),
-                //       Text(
-                //         " Настройки",
-                //         style: TextStyle(
-                //             fontSize: 15,
-                //             fontWeight: FontWeight.w700,
-                //             color: Colors.white),
-                //       )
-                //     ],
-                //   ),
-                //   onPressed: () {},
-                // ),
+                
               ],
             )
           ],
@@ -261,7 +240,33 @@ class _ProfileState extends State<Profile> {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20.0),
           ),
-        )
+        ),
+        ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      shape: const StadiumBorder(),
+                      backgroundColor: Colors.grey),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.settings_sharp,
+                        color: Colors.white,
+                      ),
+                      Text(
+                        " Настройки",
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white),
+                      )
+                    ],
+                  ),
+                  onPressed: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
+
+                  },
+                ),
       ]),
     );
   }

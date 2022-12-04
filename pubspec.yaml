@@ -96,6 +96,11 @@ flutter:
           weight: 700
         - asset: assets/fonts/Roboto/Roboto-Black.ttf
           weight: 900
+    - family: Raleway
+      fonts:
+        - asset: assets/fonts/Raleway/Raleway-VariableFont_wght.ttf
+        - asset: assets/fonts/Raleway/Raleway-Italic-VariableFont_wght.ttf
+          style: italic
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
