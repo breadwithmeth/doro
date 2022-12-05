@@ -25,6 +25,26 @@ Future<bool> loginClient(String login, String password) async {
   }
 }
 
+Future<bool> loginClientQR(String qr) async {
+  var url = Uri.https(URL_API, '/api/customer/login.php');
+  var response = await http.post(
+    url,
+    body: json.encode({"qr_uuid": "$qr"}),
+    headers: {"Content-Type": "application/json"},
+  );
+  print(response.body);
+  var data = jsonDecode(response.body);
+  if (response.statusCode != 200) {
+    return false;
+  } else {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('token', data['key']);
+    final token = prefs.getString('token') ?? 0;
+    print(token);
+    return true;
+  }
+}
+
 Future<Map<String, dynamic>> sendQR(String qr) async {
   final prefs = await SharedPreferences.getInstance();
   var url = Uri.https(URL_API, '/api/qr/sendQR.php');
@@ -156,6 +176,8 @@ Future<int> joinTraining(String training_id) async {
   // print(response.body);
   return response.statusCode;
 }
+
+
 
 
 // {"service_id":"3","name":"123","description":"1234","area_id":"1","provider_id":"2","worker_id":"1","service_timestamp":"2022-11-24 16:09:42","category_id":"3","provider_fee":"0","isDeleted":"0","price":"12","validity":"1","amount_of_customers":"13","type":"sell_service"}

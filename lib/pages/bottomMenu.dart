@@ -1,10 +1,10 @@
 import 'package:doro/pages/news.dart';
 import 'package:doro/pages/profile.dart';
 import 'package:doro/pages/qr.dart';
+import 'package:doro/pages/rating.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
-
 import '../utils/colors.dart';
 
 class BottomMenu extends StatefulWidget {
@@ -23,6 +23,8 @@ class _BottomMenuState extends State<BottomMenu> {
 
   static List<Map<String, dynamic>> _pages = <Map<String, dynamic>>[
     {"widget": News(), "title": "Новости"},
+    {"widget": Rating(), "title": "Рейтинг"},
+
     {
       "widget": QR(),
     },
@@ -35,7 +37,7 @@ class _BottomMenuState extends State<BottomMenu> {
   int _selectedIndex = 0; //New
   void _onItemTapped(int index) {
     setState(() {
-      if (index == 1) {
+      if (index == 2) {
         Navigator.push(context, MaterialPageRoute(builder: (context) => QR()));
       } else {
         _selectedIndex = index;
@@ -59,11 +61,18 @@ class _BottomMenuState extends State<BottomMenu> {
       //     )),
       floatingActionButton: Container(
         decoration: BoxDecoration(
-
-            borderRadius: BorderRadius.all(Radius.circular(30)),
-            color: Colors.white,
-            // gradient:LinearGradient(colors: [Color(0xFFff6e7f), Color(0xFFbfe9ff)])
-                ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.4),
+              spreadRadius: 1,
+              blurRadius: 1,
+              offset: Offset(0, 0), // changes position of shadow
+            ),
+          ],
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+          color: Colors.white,
+          // gradient:LinearGradient(colors: [Color(0xFFff6e7f), Color(0xFFbfe9ff)])
+        ),
         padding: EdgeInsets.all(0),
         margin: EdgeInsets.all(10),
         clipBehavior: Clip.antiAlias,
@@ -85,6 +94,11 @@ class _BottomMenuState extends State<BottomMenu> {
               activeIcon: Icon(Icons.home_rounded),
               icon: Icon(Icons.home_outlined),
               label: 'Новости',
+            ),
+            BottomNavigationBarItem(
+              activeIcon: Icon(Icons.star_rounded),
+              icon: Icon(Icons.star_outline_rounded),
+              label: 'Рейтинг',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.qr_code_rounded),
@@ -110,8 +124,6 @@ class _BottomMenuState extends State<BottomMenu> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-
-
 
       // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       // bottomNavigationBar: Container(

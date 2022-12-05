@@ -1,4 +1,6 @@
 import 'package:doro/pages/bottomMenu.dart';
+import 'package:doro/pages/qr.dart';
+import 'package:doro/pages/qrLogin.dart';
 import 'package:doro/utils/api.dart';
 import 'package:doro/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,6 @@ class Login extends StatefulWidget {
   @override
   State<Login> createState() => _LoginState();
 }
-
 
 class _LoginState extends State<Login> {
   final login = TextEditingController();
@@ -39,7 +40,11 @@ class _LoginState extends State<Login> {
                 children: [
                   Text(
                     "D`oro",
-                    style: TextStyle(fontWeight: FontWeight.w700, fontSize: 40, fontFamily: "Raleway",),
+                    style: TextStyle(
+                      fontWeight: FontWeight.w700,
+                      fontSize: 40,
+                      fontFamily: "Raleway",
+                    ),
                   )
                 ],
               ),
@@ -99,36 +104,83 @@ class _LoginState extends State<Login> {
                   SizedBox(
                     height: 10,
                   ),
-                  TextButton(
-                    onPressed: () async {
-                      Future<bool> isLoggedIn =
-                          loginClient(login.text, password.text);
-                      if (await isLoggedIn) {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: ((context) => BottomMenu())));
-                      }
-                      print(login.text);
-                    },
-                    child: Container(
-                        decoration: BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.all(Radius.circular(10)), gradient: LinearGradient(colors: [Color(0xFFFDC830), Color(0xFFF37335)])),
-                        // width: MediaQuery.of(context).size.width * 0.4,
-                        padding: EdgeInsets.all(10),
-                        child: Row(
-
-                          children: [
-                            Text(
-                              "Войти",
-                              style: TextStyle(
-                                  color: Color(0xFFffffff), fontSize: 20),
-                            ),
-                            Icon(Icons.arrow_forward, color: Colors.white,)
-                          ],
-                          mainAxisSize: MainAxisSize.max,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                        )),
+                  Row(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      TextButton(
+                          onPressed: (() {
+                             Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => QRLogin())));
+                          }),
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                                color: Colors.indigoAccent,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                gradient: LinearGradient(colors: [
+                                  Color(0xFFFDC830),
+                                  Color(0xFFF37335)
+                                ])
+                                // gradient: LinearGradient(colors: [
+                                //   Colors.indigo,
+                                //   Colors.indigoAccent
+                                // ])
+                                ),
+                            child: Icon(Icons.qr_code_rounded, color: Colors.white,),
+                          )),
+                      Expanded(
+                      child: TextButton(
+                        onPressed: () async {
+                          Future<bool> isLoggedIn =
+                              loginClient(login.text, password.text);
+                          if (await isLoggedIn) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: ((context) => BottomMenu())));
+                          }
+                          print(login.text);
+                        },
+                        style: TextButton.styleFrom(padding: EdgeInsets.all(0)),
+                        child: Container(
+                            decoration: BoxDecoration(
+                                color: Colors.indigoAccent,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(10)),
+                                gradient: LinearGradient(colors: [
+                                  Color(0xFFFDC830),
+                                  Color(0xFFF37335)
+                                ])
+                                // gradient: LinearGradient(colors: [
+                                //   Colors.indigo,
+                                //   Colors.indigoAccent
+                                // ])
+                                ),
+                            padding: EdgeInsets.all(10),
+                            child: Row(
+                              children: [
+                                Text(
+                                  "Войти",
+                                  style: TextStyle(
+                                      color: Color(0xFFffffff), fontSize: 20),
+                                ),
+                                Icon(
+                                  Icons.arrow_forward,
+                                  color: Colors.white,
+                                )
+                              ],
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                            )),
+                      )
+                  ,)
+                        ],
                   )
                 ],
               ))
