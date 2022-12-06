@@ -148,11 +148,12 @@ Future<List?> getTrainigsScheduleCustomer() async {
       "AUTH": prefs.getString('token')!
     },
   );
-if (response.body.isNotEmpty) {
+  if (response.body.isNotEmpty) {
     list = json.decode(utf8.decode(response.bodyBytes));
   } else {
     list = null;
-  }  return list;
+  }
+  return list;
 }
 
 Future<List?> getTrainigsForDay(String date) async {
@@ -170,14 +171,14 @@ Future<List?> getTrainigsForDay(String date) async {
       "AUTH": prefs.getString('token')!
     },
   );
-if (response.body.isNotEmpty) {
+  print(response.statusCode);
+  if (response.body.isNotEmpty) {
     list = json.decode(utf8.decode(response.bodyBytes));
   } else {
     list = null;
-  }  return list;
+  }
+  return list;
 }
-
-
 
 Future<List?> getServices() async {
   List<dynamic>? list = [];

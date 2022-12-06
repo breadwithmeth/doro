@@ -34,7 +34,7 @@ class _TrainingsForDayState extends State<TrainingsForDay> {
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                title: Text(temp[index]['name']),
+                title: Row(children: [Text(temp[index]['name']), Text(temp[index]['amount_of_requests'] + "/" + temp[index]['amount_of_customers'])]),
                 subtitle: Column(
                   children: [
                     SizedBox(
