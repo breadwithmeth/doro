@@ -34,7 +34,27 @@ class _TrainingsForDayState extends State<TrainingsForDay> {
                     borderRadius: BorderRadius.all(Radius.circular(20))),
                 contentPadding:
                     EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                title: Row(children: [Text(temp[index]['name']), Text(temp[index]['amount_of_requests'] + "/" + temp[index]['amount_of_customers'])]),
+                title: Row(children: [
+                  Text(temp[index]['name']),
+                  Text(temp[index]['amount_of_requests'] +
+                      "/" +
+                      temp[index]['amount_of_customers']),
+                  temp[index]['is_enrolled'] != null
+                      ? Container(
+                          padding: EdgeInsets.all(2),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10)),
+                              color: Colors.green),
+                          child: Text(
+                            "Вы записаны",
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w700),
+                          ),
+                        )
+                      : Text(""),
+                ]),
                 subtitle: Column(
                   children: [
                     SizedBox(
