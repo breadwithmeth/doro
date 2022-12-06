@@ -3,8 +3,9 @@ import 'package:doro/pages/login.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:intl/date_symbol_data_local.dart';
 import 'utils/colors.dart';
 
 
@@ -13,9 +14,8 @@ import 'utils/colors.dart';
 
 
 void main() async {
-
-runApp(const MyApp());
-
+Intl.defaultLocale = 'ru_RU';
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatefulWidget {

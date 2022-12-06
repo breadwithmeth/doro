@@ -45,7 +45,7 @@ class _QRLoginState extends State<QRLogin> {
           child: TextButton(
             child: Container(
               decoration: BoxDecoration(
-                  color: doro_yellow,
+                  color: Colors.grey.withOpacity(0.5),
                   borderRadius: BorderRadius.all(Radius.circular(60))),
               padding: EdgeInsets.all(30),
               child: Icon(

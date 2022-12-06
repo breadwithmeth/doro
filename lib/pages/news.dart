@@ -33,6 +33,7 @@ class _NewsState extends State<News> {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.only(bottom: 100),
       itemCount: news.length,
       itemBuilder: ((context, index) {
         return Container(

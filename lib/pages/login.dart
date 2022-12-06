@@ -62,6 +62,7 @@ class _LoginState extends State<Login> {
               ),
               Form(
                   child: Column(
+                  
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -123,8 +124,8 @@ class _LoginState extends State<Login> {
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(10)),
                                 gradient: LinearGradient(colors: [
-                                  Color(0xFFFDC830),
-                                  Color(0xFFF37335)
+                                  Colors.indigo,
+                                  Colors.indigoAccent
                                 ])
                                 // gradient: LinearGradient(colors: [
                                 //   Colors.indigo,
@@ -163,6 +164,9 @@ class _LoginState extends State<Login> {
                                 ),
                             padding: EdgeInsets.all(10),
                             child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
                                 Text(
                                   "Войти",
@@ -174,9 +178,6 @@ class _LoginState extends State<Login> {
                                   color: Colors.white,
                                 )
                               ],
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
                             )),
                       )
                   ,)

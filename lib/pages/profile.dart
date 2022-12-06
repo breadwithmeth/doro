@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:doro/pages/servicePage.dart';
 import 'package:doro/pages/settings.dart';
+import 'package:doro/pages/trainingCalendar.dart';
 import 'package:doro/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -15,13 +16,14 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
-  Widget trainings = Text("На сегодня нет тренировок");
+  Widget trainings = Text("");
   Widget services = Text("Нет абониментов");
 
   Map<String, dynamic> data = {};
   Widget photo = CircleAvatar(
     child: Icon(Icons.photo_camera_outlined),
   );
+  bool isTrainingsEmpty = true;
   @override
   void initState() {
     // TODO: implement initState
@@ -52,7 +54,6 @@ class _ProfileState extends State<Profile> {
 
     if (res != null) {
       res.forEach((element) {
-
         listOfTrainings.add(Container(
             height: 60,
             decoration: BoxDecoration(
@@ -104,6 +105,7 @@ class _ProfileState extends State<Profile> {
       });
       setState(() {
         if (listOfTrainings.length != 0) {
+          isTrainingsEmpty = false;
           trainings = Column(
             children: listOfTrainings,
           );
@@ -145,7 +147,6 @@ class _ProfileState extends State<Profile> {
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
                     ),
-
                   ],
                 ),
                 IconButton(
@@ -176,13 +177,10 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Container(
       child: ListView(shrinkWrap: true, padding: EdgeInsets.all(10), children: [
-        SizedBox(
-          height: 40,
-        ),
         Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            photo,
+            // photo,
             SizedBox(
               height: 20,
             ),
@@ -200,27 +198,66 @@ class _ProfileState extends State<Profile> {
                 SizedBox(
                   height: 10,
                 ),
-                
               ],
             )
           ],
         ),
         Card(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(20.0),
+          ),
           child: Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Предстоящие тренировки",
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Предстоящие тренировки",
+                      style:
+                          TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
+                    ),
+                    IconButton(
+                        onPressed: null,
+                        icon: Icon(Icons.edit_calendar_outlined))
+                  ],
                 ),
-                trainings
+                isTrainingsEmpty
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.max,
+                            children: [
+                              Text(
+                                "🐛",
+                                style: TextStyle(
+                                  fontSize: 90,
+                                  fontFamily: "Noto Emoji",
+                                ),
+                              ),
+                              OutlinedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              TrainingCalendar()),
+                                    );
+                                  },
+                                  child: Text("Календарь тренировок"))
+                            ],
+                          )
+                        ],
+                      )
+                    : trainings,
+                Divider()
               ],
             ),
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20.0),
           ),
         ),
         Card(
@@ -242,32 +279,33 @@ class _ProfileState extends State<Profile> {
           ),
         ),
         ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      shape: const StadiumBorder(),
-                      backgroundColor: Colors.grey),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.settings_sharp,
-                        color: Colors.white,
-                      ),
-                      Text(
-                        " Настройки",
-                        style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white),
-                      )
-                    ],
-                  ),
-                  onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => SettingsPage()));
-
-                  },
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.2,)
+          style: ElevatedButton.styleFrom(
+              shape: const StadiumBorder(), backgroundColor: Colors.grey),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.settings_sharp,
+                color: Colors.white,
+              ),
+              Text(
+                " Настройки",
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white),
+              )
+            ],
+          ),
+          onPressed: () {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SettingsPage()));
+          },
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * 0.2,
+        )
       ]),
     );
   }

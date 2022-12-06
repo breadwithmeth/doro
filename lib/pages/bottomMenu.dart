@@ -48,22 +48,22 @@ class _BottomMenuState extends State<BottomMenu> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //     actions: _pages[_selectedIndex]["actions"],
-      //     shape: ContinuousRectangleBorder(
-      //         borderRadius: BorderRadius.circular(10)),
-      //     backgroundColor: Color(0xFFf3f3f3),
-      //     title: Container(
-      //       child: Text(
-      //         _pages[_selectedIndex]["title"],
-      //         style: TextStyle(color: Colors.black),
-      //       ),
-      //     )),
+      appBar: AppBar(
+          automaticallyImplyLeading: false,
+          shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.circular(10)),
+          backgroundColor: Color(0xFFf3f3f3),
+          title: Container(
+            child: Text(
+              _pages[_selectedIndex]["title"],
+              style: TextStyle(color: Colors.black),
+            ),
+          )),
       floatingActionButton: Container(
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.4),
+              color: Colors.indigo.withOpacity(0.1),
               spreadRadius: 1,
               blurRadius: 1,
               offset: Offset(0, 0), // changes position of shadow
