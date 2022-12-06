@@ -136,9 +136,9 @@ Future<List?> getTrainings() async {
   return list;
 }
 
-
 Future<List?> getTrainigsScheduleCustomer() async {
   List<dynamic>? list = [];
+
   final prefs = await SharedPreferences.getInstance();
   var url = Uri.https(URL_API, '/api/training/getTrainigsScheduleCustomer.php');
   var response = await http.post(
@@ -148,16 +148,35 @@ Future<List?> getTrainigsScheduleCustomer() async {
       "AUTH": prefs.getString('token')!
     },
   );
-
-  // List<dynamic> list = json.decode(response.body);
-  if (response.body.isNotEmpty) {
+if (response.body.isNotEmpty) {
     list = json.decode(utf8.decode(response.bodyBytes));
   } else {
     list = null;
-  }
-
-  return list;
+  }  return list;
 }
+
+Future<List?> getTrainigsForDay(String date) async {
+  List<dynamic>? list = [];
+
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/training/getTrainingsForDay.php');
+  var response = await http.post(
+    url,
+    body: json.encode({
+      'date': date,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
+if (response.body.isNotEmpty) {
+    list = json.decode(utf8.decode(response.bodyBytes));
+  } else {
+    list = null;
+  }  return list;
+}
+
 
 
 Future<List?> getServices() async {
