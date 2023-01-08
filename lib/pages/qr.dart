@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:doro/pages/buyRecipe.dart';
 import 'package:doro/pages/buyService.dart';
 import 'package:doro/pages/joinTraining.dart';
 import 'package:doro/utils/api.dart';
@@ -50,6 +51,17 @@ class _QRState extends State<QR> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => JoinTraining(
+                        data: data,
+                      ),
+                    ),
+                  );
+                }else if (data['qr_type'] == "sell_recipe") {
+                  print(data);
+                  cameraController.stop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BuyRecipe(
                         data: data,
                       ),
                     ),

@@ -95,6 +95,22 @@ Future<int> buyService(String service_id) async {
   return response.statusCode;
 }
 
+Future<int> buyRecipe(String recipe_id, String worker_id) async {
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/recipe/buyRecipe.php');
+  var response = await http.post(
+    url,
+    body: json.encode({"recipe_id": recipe_id, "worker_id": worker_id}),
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
+  print(response.statusCode);
+  // print(response.body);
+  return response.statusCode;
+}
+
 Future<Map<String, dynamic>> getCustomer() async {
   final prefs = await SharedPreferences.getInstance();
   var url = Uri.https(URL_API, '/api/customer/getCustomer.php');
@@ -221,6 +237,21 @@ Future<int> joinTraining(String training_id) async {
   return response.statusCode;
 }
 
+Future<int> enrollTraining(String training_id) async {
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/training/joinTraining.php');
+  var response = await http.post(
+    url,
+    body: json.encode({"training_id": training_id}),
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
+  print(response.statusCode);
+  // print(response.body);
+  return response.statusCode;
+}
 
 
 

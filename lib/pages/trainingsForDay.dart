@@ -1,3 +1,4 @@
+import 'package:doro/pages/trainingPage.dart';
 import 'package:doro/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -82,7 +83,14 @@ class _TrainingsForDayState extends State<TrainingsForDay> {
                 ),
                 trailing: IconButton(
                   icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: null,
+                  onPressed: (() {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              TrainingPage(training_id: temp[index]['training_id']),
+                        ));
+                  }),
                 ),
               ),
             );

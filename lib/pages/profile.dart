@@ -198,6 +198,12 @@ class _ProfileState extends State<Profile> {
                 SizedBox(
                   height: 10,
                 ),
+                Text((data['balance'] ?? "0") + "\u2351",
+                    style:
+                        TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
+                SizedBox(
+                  height: 10,
+                ),
               ],
             )
           ],
