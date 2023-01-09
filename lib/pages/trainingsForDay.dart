@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:doro/pages/trainingPage.dart';
 import 'package:doro/utils/api.dart';
 import 'package:flutter/material.dart';
@@ -81,18 +83,91 @@ class _TrainingsForDayState extends State<TrainingsForDay> {
                     )
                   ],
                 ),
-                trailing: IconButton(
+                trailing: temp[index]['is_enrolled'] != null ?
+
+                
+                IconButton(
+                  icon: Icon(Icons.close),
+                  onPressed: () => showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                        backgroundColor: Colors.white,
+                        alignment: Alignment.center,
+                        title: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: (() async {
+                                await cancelEnrollTraining(
+                                    temp[index]['training_id']);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        TrainingsForDay(date: widget.date),
+                                  ),
+                                );
+                              }),
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  'Отменить',
+                                  style: TextStyle(fontSize: 30),
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'Cancel'),
+                              child: const Text('Отмена'),
+                            ),
+                          ],
+                        )),
+                  ),
+                )
+            : IconButton(
                   icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: (() {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              TrainingPage(training_id: temp[index]['training_id']),
-                        ));
-                  }),
-                ),
-              ),
+                  onPressed: () => showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                        backgroundColor: Colors.white,
+                        alignment: Alignment.center,
+                        title: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ElevatedButton(
+                              onPressed: (() async {
+                                await enrollTraining(
+                                    temp[index]['training_id']);
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        TrainingsForDay(date: widget.date),
+                                  ),
+                                );
+                              }),
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  'Записаться',
+                                  style: TextStyle(fontSize: 30),
+                                ),
+                              ),
+                            ),
+                            TextButton(
+                              onPressed: () => Navigator.pop(context, 'Cancel'),
+                              child: const Text('Отмена'),
+                            ),
+                          ],
+                        )),
+                  ),
+                ) ),
             );
           }));
       //_trainings = ListView(children: listOfTrainings);

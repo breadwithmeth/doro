@@ -55,7 +55,6 @@ class _ProfileState extends State<Profile> {
     if (res != null) {
       res.forEach((element) {
         listOfTrainings.add(Container(
-            height: 60,
             decoration: BoxDecoration(
                 gradient:
                     LinearGradient(begin: Alignment.center, colors: <Color>[
@@ -82,11 +81,15 @@ class _ProfileState extends State<Profile> {
                     ),
                     Row(
                       children: [
-                        Text(element["training_start"] +
+                        Text(element["training_start_format"] +
                             "-" +
-                            element["training_end"]),
+                            element["training_end_format"]),
                       ],
-                    )
+                    ),
+                    Text(
+                      element["training_date"],
+                      
+                    ),
                   ],
                 ),
                 IconButton(
@@ -198,7 +201,7 @@ class _ProfileState extends State<Profile> {
                 SizedBox(
                   height: 10,
                 ),
-                Text((data['balance'] ?? "0") + "\u2351",
+                Text((data['balance'] ?? "0") + "\u3012",
                     style:
                         TextStyle(fontWeight: FontWeight.w700, fontSize: 20)),
                 SizedBox(
@@ -227,8 +230,14 @@ class _ProfileState extends State<Profile> {
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                     ),
                     IconButton(
-                        onPressed: null,
-                        icon: Icon(Icons.edit_calendar_outlined))
+onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              TrainingCalendar()),
+                                    );
+                                  },                        icon: Icon(Icons.edit_calendar_outlined))
                   ],
                 ),
                 isTrainingsEmpty

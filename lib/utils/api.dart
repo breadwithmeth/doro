@@ -239,7 +239,7 @@ Future<int> joinTraining(String training_id) async {
 
 Future<int> enrollTraining(String training_id) async {
   final prefs = await SharedPreferences.getInstance();
-  var url = Uri.https(URL_API, '/api/training/joinTraining.php');
+  var url = Uri.https(URL_API, '/api/training/enrollTraining.php');
   var response = await http.post(
     url,
     body: json.encode({"training_id": training_id}),
@@ -252,6 +252,23 @@ Future<int> enrollTraining(String training_id) async {
   // print(response.body);
   return response.statusCode;
 }
+
+Future<int> cancelEnrollTraining(String training_id) async {
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/training/cancelEnrollTraining.php');
+  var response = await http.post(
+    url,
+    body: json.encode({"training_id": training_id}),
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
+  print(response.statusCode);
+  // print(response.body);
+  return response.statusCode;
+}
+
 
 
 
