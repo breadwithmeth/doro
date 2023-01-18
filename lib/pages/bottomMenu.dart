@@ -33,6 +33,11 @@ class _BottomMenuState extends State<BottomMenu> {
       "title": "Мой профиль",
       "actions": [IconButton(onPressed: null, icon: Icon(Icons.settings))]
     },
+    {
+      "widget": Profile(),
+      "title": "Мой профиль",
+      "actions": [IconButton(onPressed: null, icon: Icon(Icons.settings))]
+    },
   ];
   int _selectedIndex = 0; //New
   void _onItemTapped(int index) {
@@ -61,17 +66,17 @@ class _BottomMenuState extends State<BottomMenu> {
           )),
       floatingActionButton: Container(
         decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.indigo.withOpacity(0.1),
-              spreadRadius: 1,
-              blurRadius: 1,
-              offset: Offset(0, 0), // changes position of shadow
-            ),
-          ],
+          // boxShadow: [
+          //   BoxShadow(
+          //     color: Colors.indigo.withOpacity(0.1),
+          //     spreadRadius: 1,
+          //     blurRadius: 1,
+          //     offset: Offset(0, 0), // changes position of shadow
+          //   ),
+          // ],
           borderRadius: BorderRadius.all(Radius.circular(30)),
           color: Colors.white,
-          // gradient:LinearGradient(colors: [Color(0xFFff6e7f), Color(0xFFbfe9ff)])
+          //gradient:LinearGradient(colors: [Color(0xFFff6e7f), Color(0xFFbfe9ff)])
         ),
         padding: EdgeInsets.all(0),
         margin: EdgeInsets.all(10),
@@ -81,7 +86,7 @@ class _BottomMenuState extends State<BottomMenu> {
           showSelectedLabels: false,
           showUnselectedLabels: false,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: primary_background,
+          backgroundColor: Colors.white,
           unselectedItemColor: Colors.grey[600],
           selectedItemColor: Colors.black,
           // selectedIconTheme: IconThemeData(shadows: <Shadow>[
@@ -101,8 +106,13 @@ class _BottomMenuState extends State<BottomMenu> {
               label: 'Рейтинг',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.qr_code_rounded),
+              icon: CircleAvatar(child: Icon(Icons.qr_code_rounded, color: Colors.white,), backgroundColor: Colors.amber,),
               label: 'qr',
+            ),
+            BottomNavigationBarItem(
+              activeIcon: Icon(Icons.sports_baseball),
+              icon: Icon(Icons.sports_baseball_outlined),
+              label: 'Профиль',
             ),
             // BottomNavigationBarItem(
             //   icon: IconButton(

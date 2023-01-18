@@ -28,147 +28,258 @@ class _TrainingsForDayState extends State<TrainingsForDay> {
           padding: EdgeInsets.all(5),
           itemCount: temp.length,
           itemBuilder: ((context, index) {
-            return Card(
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(20))),
-              child: ListTile(
-                tileColor: Colors.white,
+            List<Widget> services = [];
+            for (var service in temp[index]['services']) {
+              Widget tempCard = Card(
+                color: Colors.white,
+                shadowColor: Colors.black,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                title: Row(children: [
-                  Text(temp[index]['name']),
-                  Text(temp[index]['amount_of_requests'] +
-                      "/" +
-                      temp[index]['amount_of_customers']),
-                  temp[index]['is_enrolled'] != null
-                      ? Container(
-                          padding: EdgeInsets.all(2),
-                          decoration: BoxDecoration(
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(10)),
-                              color: Colors.green),
-                          child: Text(
-                            "Вы записаны",
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.w700),
-                          ),
+                child: ListTile(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ServicePage(
+                                schedule_id: service['schedule_id'],
+                              )),
+                    );
+                  },
+                  tileColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(Radius.circular(20))),
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+                  title: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  service['name'],
+                                  style: TextStyle(fontWeight: FontWeight.w700),
+                                ),
+                                Text(
+                                  service['organization_name'],
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                      color: Colors.grey),
+                                )
+                              ],
+                            ),
+                            service['is_enrolled'] != null
+                                ? Container(
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5)),
+                                        gradient: LinearGradient(
+                                            colors: [
+                                              Color(0xFF087EE1),
+                                              Color(0xFF05E8BA)
+                                            ],
+                                            end: Alignment.center,
+                                            begin: Alignment(-3, -0))),
+                                    child: Text(
+                                      "Вы записаны",
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.w700),
+                                    ),
+                                  )
+                                : Text(""),
+                          ],
+                        ),
+                        Row(
+                          children: [Text(service['provider_name'])],
                         )
-                      : Text(""),
-                ]),
-                subtitle: Column(
-                  children: [
-                    SizedBox(
-                      height: 2,
-                    ),
-                    Row(
-                      children: [
-                        Text(temp[index]['training_start'] +
-                            "-" +
-                            temp[index]['training_end']),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 2,
-                    ),
-                    Row(
-                      children: [
-                        Text("Тренер " +
-                            temp[index]['last_name'] +
-                            " " +
-                            temp[index]['first_name'])
-                      ],
-                    )
-                  ],
+                      ]),
+                  subtitle: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(Icons.people_outline),
+                          Text(
+                              service['amount_of_requests'] +
+                                  "/" +
+                                  service['amount_of_customers'],
+                              style: TextStyle(fontWeight: FontWeight.w700)),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.watch_later_outlined),
+                          Text(
+                            service['training_start'],
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          )
+                        ],
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                      Row(
+                        children: [
+                          Icon(Icons.timelapse_outlined),
+                          Text(
+                            service['duration'],
+                            style: TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          Text(" минут")
+                        ],
+                      ),
+                      SizedBox(
+                        height: 2,
+                      ),
+                    ],
+                  ),
                 ),
-                trailing: temp[index]['is_enrolled'] != null ?
-
-                
-                IconButton(
-                  icon: Icon(Icons.close),
-                  onPressed: () => showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                        backgroundColor: Colors.white,
-                        alignment: Alignment.center,
-                        title: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: (() async {
-                                await cancelEnrollTraining(
-                                    temp[index]['training_id']);
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        TrainingsForDay(date: widget.date),
-                                  ),
-                                );
-                              }),
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  'Отменить',
-                                  style: TextStyle(fontSize: 30),
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'Cancel'),
-                              child: const Text('Отмена'),
-                            ),
-                          ],
-                        )),
+              );
+              services.add(tempCard);
+            }
+            return Container(
+              margin: EdgeInsets.symmetric(vertical: 9),
+              padding: EdgeInsets.symmetric(vertical: 5),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.white, width: 1),
+                borderRadius: BorderRadius.circular(20),
+                // color: Colors.white
+                gradient: LinearGradient(
+                    colors: [Color(0xFF087EE1), Color(0xFF05E8BA)]),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.blueAccent.withOpacity(0.1),
+                    spreadRadius: 5,
+                    blurRadius: 7,
+                    offset: Offset(0, 3), // changes position of shadow
                   ),
-                )
-            : IconButton(
-                  icon: Icon(Icons.arrow_forward_ios),
-                  onPressed: () => showDialog<String>(
-                    context: context,
-                    builder: (BuildContext context) => AlertDialog(
-                        backgroundColor: Colors.white,
-                        alignment: Alignment.center,
-                        title: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ElevatedButton(
-                              onPressed: (() async {
-                                await enrollTraining(
-                                    temp[index]['training_id']);
-                                Navigator.pop(context);
-                                Navigator.pop(context);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        TrainingsForDay(date: widget.date),
-                                  ),
-                                );
-                              }),
-                              child: Container(
-                                padding: EdgeInsets.all(10),
-                                child: Text(
-                                  'Записаться',
-                                  style: TextStyle(fontSize: 30),
-                                ),
-                              ),
-                            ),
-                            TextButton(
-                              onPressed: () => Navigator.pop(context, 'Cancel'),
-                              child: const Text('Отмена'),
-                            ),
-                          ],
-                        )),
+                ],
+              ),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      Text(
+                        "\t\t" + temp[index]['category_name'],
+                        style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white,
+                            fontSize: 20),
+                      ),
+                    ],
                   ),
-                ) ),
+                  Column(children: services)
+                ],
+              ),
             );
+            // return Card(
+            //   shape: RoundedRectangleBorder(
+            //       borderRadius: BorderRadius.all(Radius.circular(20))),
+            //   child: ListTile(
+            //     onTap: () {
+            //       print("object");
+            //     },
+            //     tileColor: Colors.white,
+            //     shape: RoundedRectangleBorder(
+            //         borderRadius: BorderRadius.all(Radius.circular(20))),
+            //     contentPadding:
+            //         EdgeInsets.symmetric(vertical: 10, horizontal: 5),
+            //     title: Column(
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //             children: [
+            //               Column(
+            //               mainAxisAlignment: MainAxisAlignment.start,
+            //               crossAxisAlignment: CrossAxisAlignment.start,
+            //               children: [
+            //               Text(
+            //                 temp[index]['name'],
+            //                 style: TextStyle(fontWeight: FontWeight.w700),
+            //               ),
+            //               Text(temp[index]['organization_name'], style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14, color: Colors.grey),)
+
+            //               ],
+            //               ),
+            //               temp[index]['is_enrolled'] != null
+            //                   ? Container(
+            //                       padding: EdgeInsets.all(5),
+            //                       decoration: BoxDecoration(
+            //                           borderRadius:
+            //                               BorderRadius.all(Radius.circular(30)),
+            //                           color: Colors.amber),
+            //                       child: Text(
+            //                         "Вы записаны",
+            //                         style: TextStyle(
+            //                             color: Colors.white,
+            //                             fontWeight: FontWeight.w700),
+            //                       ),
+            //                     )
+            //                   : Text(""),
+            //             ],
+            //           ),
+            //           Row(children: [
+            //             Text(temp[index]['provider_name'] )
+            //           ],)
+            //         ]),
+            //     subtitle: Row(
+            //       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //       children: [
+            //         Row(
+            //           children: [
+            //             Icon(Icons.people_outline),
+            //             Text(
+            //                 temp[index]['amount_of_requests'] +
+            //                     "/" +
+            //                     temp[index]['amount_of_customers'],
+            //                 style: TextStyle(fontWeight: FontWeight.w700)),
+            //           ],
+            //         ),
+            //         SizedBox(
+            //           height: 2,
+            //         ),
+            //         Row(
+            //           children: [
+            //             Icon(Icons.watch_later_outlined),
+            //             Text(
+            //               temp[index]['training_start'],
+            //               style: TextStyle(fontWeight: FontWeight.w700),
+            //             )
+            //           ],
+            //         ),
+            //         SizedBox(
+            //           height: 2,
+            //         ),
+            //         Row(
+            //           children: [
+            //             Icon(Icons.timelapse_outlined),
+            //             Text(
+            //               temp[index]['duration'],
+            //               style: TextStyle(fontWeight: FontWeight.w700),
+            //             ),
+            //             Text(" минут")
+            //           ],
+            //         ),
+            //         SizedBox(
+            //           height: 2,
+            //         ),
+            //       ],
+            //     ),
+            //   ),
+            // );
           }));
       //_trainings = ListView(children: listOfTrainings);
       setState(() {
@@ -195,7 +306,9 @@ class _TrainingsForDayState extends State<TrainingsForDay> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        title: Text("Услуги"),
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
       ),

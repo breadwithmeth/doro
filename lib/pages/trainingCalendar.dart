@@ -58,7 +58,7 @@ class _TrainingCalendarState extends State<TrainingCalendar> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          "Календарь тренировок",
+          "Календарь занятий",
         ),
         foregroundColor: Colors.black,
       ),

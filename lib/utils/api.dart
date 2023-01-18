@@ -156,7 +156,8 @@ Future<List?> getTrainigsScheduleCustomer() async {
   List<dynamic>? list = [];
 
   final prefs = await SharedPreferences.getInstance();
-  var url = Uri.https(URL_API, '/api/training/getTrainigsScheduleCustomer.php');
+  var url =
+      Uri.https(URL_API, '/api/service/getServiceScheduleForCustomer.php');
   var response = await http.post(
     url,
     headers: {
@@ -176,7 +177,7 @@ Future<List?> getTrainigsForDay(String date) async {
   List<dynamic>? list = [];
 
   final prefs = await SharedPreferences.getInstance();
-  var url = Uri.https(URL_API, '/api/training/getTrainingsForDay.php');
+  var url = Uri.https(URL_API, '/api/service/getServicesForDay.php');
   var response = await http.post(
     url,
     body: json.encode({
@@ -237,12 +238,12 @@ Future<int> joinTraining(String training_id) async {
   return response.statusCode;
 }
 
-Future<int> enrollTraining(String training_id) async {
+Future<int> enrollTraining(String schedule_id) async {
   final prefs = await SharedPreferences.getInstance();
-  var url = Uri.https(URL_API, '/api/training/enrollTraining.php');
+  var url = Uri.https(URL_API, '/api/service/enrollService.php');
   var response = await http.post(
     url,
-    body: json.encode({"training_id": training_id}),
+    body: json.encode({"schedule_id": schedule_id}),
     headers: {
       "Content-Type": "application/json",
       "AUTH": prefs.getString('token')!
@@ -253,12 +254,12 @@ Future<int> enrollTraining(String training_id) async {
   return response.statusCode;
 }
 
-Future<int> cancelEnrollTraining(String training_id) async {
+Future<int> cancelEnrollTraining(String schedule_id) async {
   final prefs = await SharedPreferences.getInstance();
-  var url = Uri.https(URL_API, '/api/training/cancelEnrollTraining.php');
+  var url = Uri.https(URL_API, '/api/service/cancelEnrollService.php');
   var response = await http.post(
     url,
-    body: json.encode({"training_id": training_id}),
+    body: json.encode({"schedule_id": schedule_id}),
     headers: {
       "Content-Type": "application/json",
       "AUTH": prefs.getString('token')!
@@ -269,7 +270,89 @@ Future<int> cancelEnrollTraining(String training_id) async {
   return response.statusCode;
 }
 
+Future<List?> getServiceCategories() async {
+  List<dynamic>? list = [];
+
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/service/getServiceCategories.php');
+  var response = await http.post(
+    url,
+    body: json.encode({}),
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
+  print(response.statusCode);
+  if (response.body.isNotEmpty) {
+    list = json.decode(utf8.decode(response.bodyBytes));
+  } else {
+    list = null;
+  }
+  return list;
+}
+
+Future<Map<String, dynamic>> getServiceByScheduleId(String schedule_id) async {
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/service/getServiceByScheduleId.php');
+  var response = await http.post(url,
+      headers: {
+        "Content-Type": "application/json",
+        "AUTH": prefs.getString('token')!
+      },
+      body: json.encode({"schedule_id": schedule_id}));
+
+  // List<dynamic> list = json.decode(response.body);
+  Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+  return data;
+}
+
+Future<Map<String, dynamic>> getShoppingCartDetails(String cart_id) async {
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/shopping_cart/getShoppingCartCustomer.php');
+  var response = await http.post(url,
+      headers: {
+        "Content-Type": "application/json",
+        "AUTH": prefs.getString('token')!
+      },
+      body: json.encode({"cart_id": cart_id}));
+      print(response.statusCode);
+
+  // List<dynamic> list = json.decode(response.body);
+  Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+  return data;
+}
 
 
+Future<Map<String, dynamic>> getNewsById(String news_id) async {
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/news/getNews.php');
+  var response = await http.post(url,
+      headers: {
+        "Content-Type": "application/json",
+        "AUTH": prefs.getString('token')!
+      },
+      body: json.encode({"news_id": news_id}));
+      print(response.statusCode);
 
+  // List<dynamic> list = json.decode(response.body);
+  Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+  return data;
+}
+
+Future<int> buyShoppingCart(String cart_id) async {
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/shopping_cart/buyShoppingCart.php');
+  var response = await http.post(
+    url,
+    body: json.encode({"cart_id": cart_id}),
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
+  print(response.statusCode);
+  // print(response.body);
+  return response.statusCode;
+}
 // {"service_id":"3","name":"123","description":"1234","area_id":"1","provider_id":"2","worker_id":"1","service_timestamp":"2022-11-24 16:09:42","category_id":"3","provider_fee":"0","isDeleted":"0","price":"12","validity":"1","amount_of_customers":"13","type":"sell_service"}

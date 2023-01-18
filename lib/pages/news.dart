@@ -1,3 +1,4 @@
+import 'package:doro/pages/newsPage.dart';
 import 'package:doro/utils/api.dart';
 import 'package:doro/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +22,19 @@ class _NewsState extends State<News> {
     });
   }
 
-  
-
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     downloadNews();
+  }
+
+  bool checkIfNull(String? smt) {
+    if (smt == null || smt.length == 0) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
   @override
@@ -36,66 +43,74 @@ class _NewsState extends State<News> {
       padding: EdgeInsets.only(bottom: 100),
       itemCount: news.length,
       itemBuilder: ((context, index) {
-        return Container(
-          margin: EdgeInsets.symmetric(vertical: 5, horizontal: 4),
-          padding: EdgeInsets.all(5),
-          decoration: BoxDecoration(
-            color: primary_background,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(10),
-                topRight: Radius.circular(10),
-                bottomLeft: Radius.circular(10),
-                bottomRight: Radius.circular(10)),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                spreadRadius: 1,
-                blurRadius: 2,
-                offset: Offset(0, 3), // changes position of shadow
-              ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(10),
-                    child: Text(
-                      news[index]["title"],
-                      style: TextStyle(fontWeight: FontWeight.w700),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                padding: EdgeInsets.all(10),
-                child: Text(
-                  news[index]["description"],
-                  style: TextStyle(fontWeight: FontWeight.w400),
+        return ListTile(
+          onTap: (() {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => NewsPage(
+                  news_id: news[index]["news_id"],
                 ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(news[index]["last_name"]),
-                      Text(news[index]["first_name"])
-                    ],
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  CircleAvatar(
-                    backgroundImage: NetworkImage(news[index]["photo"]),
+            );
+          }),
+          contentPadding: EdgeInsets.all(0),
+          title: Container(
+            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 4),
+            padding: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: primary_background,
+              borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                  bottomLeft: Radius.circular(10),
+                  bottomRight: Radius.circular(10)),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  spreadRadius: 1,
+                  blurRadius: 2,
+                  offset: Offset(0, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                checkIfNull(news[index]["cover"])
+                    ? Image.network(
+                        news[index]["cover"],
+                        width: MediaQuery.of(context).size.width * 0.4,
+                      )
+                    : Container(),
+                    Spacer(),
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      news[index]["title"]!.length > 20?
+                      news[index]["title"].substring(0, 20) ?? "":
+                      news[index]["title"] ?? "",
+                      style: TextStyle(fontWeight: FontWeight.w700),
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      softWrap: false,
+                    ),
+                    Container(
+                    width: MediaQuery.of(context).size.width * 0.5,
+                    child: 
+                    
+                      Text(
+                        news[index]["description"] ?? "",
+                        style: TextStyle(fontWeight: FontWeight.w400),
+                      ),
                   )
-                ],
-              )
-            ],
+                    ,
+                  ],
+                )
+              ],
+            ),
           ),
         );
       }),

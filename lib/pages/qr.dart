@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:doro/pages/buyRecipe.dart';
 import 'package:doro/pages/buyService.dart';
+import 'package:doro/pages/buyShoppingCart.dart';
 import 'package:doro/pages/joinTraining.dart';
 import 'package:doro/utils/api.dart';
 import 'package:flutter/material.dart';
@@ -62,6 +63,17 @@ class _QRState extends State<QR> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => BuyRecipe(
+                        data: data,
+                      ),
+                    ),
+                  );
+                }else if (data['qr_type'] == "sell_cart") {
+                  print(data);
+                  cameraController.stop();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => BuyShoppingCart(
                         data: data,
                       ),
                     ),

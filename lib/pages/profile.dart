@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:doro/pages/calendarFilter.dart';
 import 'package:doro/pages/servicePage.dart';
 import 'package:doro/pages/settings.dart';
 import 'package:doro/pages/trainingCalendar.dart';
@@ -88,7 +89,6 @@ class _ProfileState extends State<Profile> {
                     ),
                     Text(
                       element["training_date"],
-                      
                     ),
                   ],
                 ),
@@ -225,19 +225,19 @@ class _ProfileState extends State<Profile> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Предстоящие тренировки",
+                      "Предстоящие занятия",
                       style:
                           TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                     ),
                     IconButton(
-onPressed: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              TrainingCalendar()),
-                                    );
-                                  },                        icon: Icon(Icons.edit_calendar_outlined))
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => TrainingCalendar()),
+                          );
+                        },
+                        icon: Icon(Icons.edit_calendar_outlined))
                   ],
                 ),
                 isTrainingsEmpty
@@ -264,7 +264,7 @@ onPressed: () {
                                               TrainingCalendar()),
                                     );
                                   },
-                                  child: Text("Календарь тренировок"))
+                                  child: Text("Календарь занятий"))
                             ],
                           )
                         ],
