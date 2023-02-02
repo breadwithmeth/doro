@@ -56,7 +56,7 @@ class _NewsState extends State<News> {
           }),
           contentPadding: EdgeInsets.all(0),
           title: Container(
-            margin: EdgeInsets.symmetric(vertical: 5, horizontal: 4),
+            margin: EdgeInsets.symmetric(vertical: 10, horizontal: 4),
             padding: EdgeInsets.all(10),
             decoration: BoxDecoration(
               color: primary_background,
@@ -79,8 +79,11 @@ class _NewsState extends State<News> {
               children: [
                 checkIfNull(news[index]["cover"])
                     ? Image.network(
-                        news[index]["cover"],
+                        Uri.tryParse(news[index]["cover"])!.hasAbsolutePath ? 
+                        news[index]["cover"] : "https://picsum.photos/200",
                         width: MediaQuery.of(context).size.width * 0.4,
+                        height: MediaQuery.of(context).size.height * 0.1,
+                        fit: BoxFit.cover,
                       )
                     : Container(),
                     Spacer(),

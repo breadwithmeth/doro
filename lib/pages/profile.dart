@@ -18,7 +18,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   Widget trainings = Text("");
-  Widget services = Text("Нет абониментов");
+  Widget subs = Text("Нет абониментов");
 
   Map<String, dynamic> data = {};
   Widget photo = CircleAvatar(
@@ -118,7 +118,7 @@ class _ProfileState extends State<Profile> {
   }
 
   Future<void> buildServices() async {
-    List<dynamic>? res = await getServices();
+    List<dynamic>? res = await getSubscriptionsCustomer();
     List<Widget> listOfServices = [];
     print(res);
     if (res != null) {
@@ -168,7 +168,7 @@ class _ProfileState extends State<Profile> {
       });
       setState(() {
         if (listOfServices.length != 0) {
-          services = Column(
+          subs = Column(
             children: listOfServices,
           );
         }
@@ -285,7 +285,7 @@ class _ProfileState extends State<Profile> {
                   "Ваши Абонименты",
                   style: TextStyle(fontSize: 15, fontWeight: FontWeight.w700),
                 ),
-                services
+                subs
               ],
             ),
           ),

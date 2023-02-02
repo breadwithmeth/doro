@@ -25,6 +25,12 @@ class _LoginState extends State<Login> {
       body: Center(
         child: Container(
           decoration: BoxDecoration(
+              // image: DecorationImage(
+              //     image: NetworkImage(
+              //         "https://images.unsplash.com/photo-1538805060514-97d9cc17730c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OTV8fGd5bXxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"),
+              //         fit: BoxFit.cover,
+              //         alignment: Alignment.center
+              //         ),
               // borderRadius: BorderRadius.circular(40),
               color: Colors.white),
           // width: MediaQuery.of(context).size.width * 0.8,
@@ -62,7 +68,6 @@ class _LoginState extends State<Login> {
               ),
               Form(
                   child: Column(
-                  
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -112,7 +117,7 @@ class _LoginState extends State<Login> {
                     children: [
                       TextButton(
                           onPressed: (() {
-                             Navigator.push(
+                            Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: ((context) => QRLogin())));
@@ -132,56 +137,61 @@ class _LoginState extends State<Login> {
                                 //   Colors.indigoAccent
                                 // ])
                                 ),
-                            child: Icon(Icons.qr_code_rounded, color: Colors.white,),
+                            child: Icon(
+                              Icons.qr_code_rounded,
+                              color: Colors.white,
+                            ),
                           )),
                       Expanded(
-                      child: TextButton(
-                        onPressed: () async {
-                          Future<bool> isLoggedIn =
-                              loginClient(login.text, password.text);
-                          if (await isLoggedIn) {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: ((context) => BottomMenu())));
-                          }
-                          print(login.text);
-                        },
-                        style: TextButton.styleFrom(padding: EdgeInsets.all(0)),
-                        child: Container(
-                            decoration: BoxDecoration(
-                                color: Colors.indigoAccent,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(10)),
-                                gradient: LinearGradient(colors: [
-                                  Color(0xFFFDC830),
-                                  Color(0xFFF37335)
-                                ])
-                                // gradient: LinearGradient(colors: [
-                                //   Colors.indigo,
-                                //   Colors.indigoAccent
-                                // ])
-                                ),
-                            padding: EdgeInsets.all(10),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  "Войти",
-                                  style: TextStyle(
-                                      color: Color(0xFFffffff), fontSize: 20),
-                                ),
-                                Icon(
-                                  Icons.arrow_forward,
-                                  color: Colors.white,
-                                )
-                              ],
-                            )),
+                        child: TextButton(
+                          onPressed: () async {
+                            Future<bool> isLoggedIn =
+                                loginClient(login.text, password.text);
+                            if (await isLoggedIn) {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: ((context) => BottomMenu())));
+                            }
+                            print(login.text);
+                          },
+                          style:
+                              TextButton.styleFrom(padding: EdgeInsets.all(0)),
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.indigoAccent,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  gradient: LinearGradient(colors: [
+                                    Color(0xFFFDC830),
+                                    Color(0xFFF37335)
+                                  ])
+                                  // gradient: LinearGradient(colors: [
+                                  //   Colors.indigo,
+                                  //   Colors.indigoAccent
+                                  // ])
+                                  ),
+                              padding: EdgeInsets.all(10),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.max,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Войти",
+                                    style: TextStyle(
+                                        color: Color(0xFFffffff), fontSize: 20),
+                                  ),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                  )
+                                ],
+                              )),
+                        ),
                       )
-                  ,)
-                        ],
+                    ],
                   )
                 ],
               ))

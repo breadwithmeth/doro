@@ -2,6 +2,7 @@ import 'package:doro/pages/news.dart';
 import 'package:doro/pages/profile.dart';
 import 'package:doro/pages/qr.dart';
 import 'package:doro/pages/rating.dart';
+import 'package:doro/pages/storePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -29,9 +30,9 @@ class _BottomMenuState extends State<BottomMenu> {
       "widget": QR(),
     },
     {
-      "widget": Profile(),
-      "title": "Мой профиль",
-      "actions": [IconButton(onPressed: null, icon: Icon(Icons.settings))]
+      "widget": StorePage(),
+      "title": "Магазин",
+      // "actions": [IconButton(onPressed: null, icon: Icon(Icons.shopping_cart))]
     },
     {
       "widget": Profile(),
@@ -54,10 +55,12 @@ class _BottomMenuState extends State<BottomMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          actions: _pages[_selectedIndex]["actions"]??[],
           automaticallyImplyLeading: false,
           shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.circular(10)),
-          backgroundColor: Color(0xFFf3f3f3),
+          // backgroundColor: Color(0xFFf3f3f3),
+          backgroundColor: Colors.white,
           title: Container(
             child: Text(
               _pages[_selectedIndex]["title"],
@@ -110,9 +113,9 @@ class _BottomMenuState extends State<BottomMenu> {
               label: 'qr',
             ),
             BottomNavigationBarItem(
-              activeIcon: Icon(Icons.sports_baseball),
-              icon: Icon(Icons.sports_baseball_outlined),
-              label: 'Профиль',
+              activeIcon: Icon(Icons.store),
+              icon: Icon(Icons.store_outlined),
+              label: 'Магазин',
             ),
             // BottomNavigationBarItem(
             //   icon: IconButton(
@@ -209,6 +212,7 @@ class _BottomMenuState extends State<BottomMenu> {
       // )
 
       body: _pages[_selectedIndex]["widget"],
+      backgroundColor: Colors.white,
     );
   }
 }

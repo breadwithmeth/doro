@@ -3,7 +3,7 @@ import 'package:doro/pages/buyService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
-var URL_API = 'doro.kz';
+var URL_API = 'new.doro.kz';
 
 Future<bool> loginClient(String login, String password) async {
   var url = Uri.https(URL_API, '/api/customer/login.php');
@@ -355,4 +355,51 @@ Future<int> buyShoppingCart(String cart_id) async {
   // print(response.body);
   return response.statusCode;
 }
+
+Future<List?> getShoppingCartsCustomer() async {
+  List<dynamic>? list = [];
+
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/shopping_cart/getShoppingCartsCustomer.php');
+  var response = await http.post(
+    url,
+    body: json.encode({
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
+  print(response.body);
+  if (response.body.isNotEmpty) {
+    list = json.decode(utf8.decode(response.bodyBytes));
+  } else {
+    list = null;
+  }
+  return list;
+}
+
+Future<List?> getSubscriptionsCustomer() async {
+  List<dynamic>? list = [];
+
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/subscription/getSubscriptionsCustomer.php');
+  var response = await http.post(
+    url,
+    body: json.encode({
+    }),
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
+  print(response.body);
+  if (response.body.isNotEmpty) {
+    list = json.decode(utf8.decode(response.bodyBytes));
+  } else {
+    list = null;
+  }
+  return list;
+}
+
 // {"service_id":"3","name":"123","description":"1234","area_id":"1","provider_id":"2","worker_id":"1","service_timestamp":"2022-11-24 16:09:42","category_id":"3","provider_fee":"0","isDeleted":"0","price":"12","validity":"1","amount_of_customers":"13","type":"sell_service"}
