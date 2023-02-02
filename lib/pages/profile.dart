@@ -249,12 +249,13 @@ class _ProfileState extends State<Profile> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                "🐛",
+                                "🐛🐛\n🐛🐛",
                                 style: TextStyle(
-                                  fontSize: 90,
+                                  fontSize: 70,
                                   fontFamily: "Noto Emoji",
                                 ),
                               ),
+                              
                               OutlinedButton(
                                   onPressed: () {
                                     Navigator.push(
