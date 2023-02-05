@@ -15,7 +15,7 @@ class TrainingsForDay extends StatefulWidget {
 }
 
 class _TrainingsForDayState extends State<TrainingsForDay> {
-  Widget trainings = Text("Выберите тренировку");
+  Widget trainings = Center(child: CircularProgressIndicator(),);
   Future<void> getTrainings(DateTime date) async {
     Widget _trainings = ListView();
     List<Widget> listOfTrainings = [];

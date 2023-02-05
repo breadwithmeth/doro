@@ -17,6 +17,7 @@ class _NewsPageState extends State<NewsPage> {
   List<Widget> sections = [];
   Future<void> getNewsSinglePage() async {
     Map<String, dynamic> tempNews = await getNewsById(widget.news_id);
+    print(tempNews);
     List tempSectionObj = tempNews['sections'];
     List<Widget> tempSections = [];
     tempSectionObj.forEach((element) {
@@ -30,12 +31,12 @@ class _NewsPageState extends State<NewsPage> {
             style: TextStyle(fontSize: 18),
           ),
         ));
-      } else if (element['type'] == "img") {
+      } else if (element['type'] == "img" || element['section'].contains(".png") || element['section'].contains(".jpeg")) {
         tempSections.add(Container(
           padding: EdgeInsets.all(10),
           child: Image.network(element['section']),
         ));
-      } else if (element['type'] == "video") {
+      } else if (element['type'] == "video" || element['section'].contains(".mvp") || element['section'].contains(".mp4")) {
         tempSections.add(Container(
           padding: EdgeInsets.all(10),
           child: VideoPlayerCustom(videoUrl: element['section']),

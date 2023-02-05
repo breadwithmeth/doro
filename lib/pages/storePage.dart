@@ -63,26 +63,7 @@ class _StorePageState extends State<StorePage> {
                     "Услуги", [Color(0xFF9FA4C4), Color(0xFFB3CDD1)], "https://source.unsplash.com/random/?gym")),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            TextButton(
-                onPressed: null,
-                child: getContainerForStoreMainPage(
-                    "Рецепты", [Color(0xFFBDDCF1), Color(0xFFFDF86D)], "https://source.unsplash.com/random/?recipe")),
-            TextButton(
-                onPressed: (() {
-                  Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ShoppingCarts(),
-              ),
-            );
-                }),
-                child: getContainerForStoreMainPage(
-                    "Корзина", [Color(0xFF20BF55), Color(0xFF01BAEF)], "https://source.unsplash.com/random/?shopping cart")),
-          ],
-        )
+        
       ],
     );
   }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:doro/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -11,6 +13,14 @@ class ServicePage extends StatefulWidget {
 }
 
 class _ServicePageState extends State<ServicePage> {
+  Widget enrollButton = Container();
+
+  Widget serviceInfo = Center(
+    child: CircularProgressIndicator(
+      color: Colors.yellow,
+    ),
+  );
+  Widget reasons = Container();
   Map<String, dynamic> service_info = {};
   NetworkImage image1 =
       NetworkImage("https://source.unsplash.com/random/?sport");
@@ -18,9 +28,89 @@ class _ServicePageState extends State<ServicePage> {
     Map<String, dynamic> temp =
         await getServiceByScheduleId(widget.schedule_id);
     print(temp);
+
+    List reasonsT = temp['reasons'];
+    List<Widget> tempReasons = [];
+    reasonsT.forEach((element) {
+      tempReasons.add(Container(
+          margin: EdgeInsets.all(5),
+          width: MediaQuery.of(context).size.width * 0.8,
+          padding: EdgeInsets.all(10),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.all(Radius.circular(30))),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    element['name'] + "#" + element['order_id'],
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  element['unlimited'] == "1"
+                      ? Text("Безлимитный")
+                      : Container()
+                ],
+              ),
+            Row(children: [Text("до "+element['exploration_date'])],)
+            
+            ],
+          )));
+    });
     setState(() {
+      reasons = Container(
+        alignment: Alignment.center,
+        width: double.infinity,
+        height: double.infinity,
+        child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+            child: SingleChildScrollView(
+              child: Column(children: tempReasons),
+            )),
+      );
       service_info = temp;
       image1 = NetworkImage("https://source.unsplash.com/random/?sport");
+      enrollButton = service_info['is_enrolled'] != null
+          ? TextButton(
+              onPressed: (() {
+                cancelEnrollTraining(widget.schedule_id);
+                Navigator.pop(context);
+                Navigator.pop(context);
+              }),
+              child: Container(
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  "Отменить",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    gradient: LinearGradient(
+                        colors: [Color(0xFF9DFBC8), Color(0xFF788CB6)])),
+              ))
+          : TextButton(
+              onPressed: (() {
+                // setState(() {
+                //   enrollButton = Column(children: reasons);
+                // });
+
+                // enrollTraining(widget.schedule_id);
+                // Navigator.pop(context);
+                // Navigator.pop(context);
+              }),
+              child: Container(
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  "Записаться",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    gradient: LinearGradient(
+                        colors: [Color(0xFFF9D976), Color(0xFFF5D020)])),
+              ));
     });
   }
 
@@ -34,9 +124,8 @@ class _ServicePageState extends State<ServicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: 
-        service_info != null ?
-        Stack(
+        body: Stack(
+      alignment: AlignmentDirectional.center,
       children: [
         Container(
           width: double.infinity,
@@ -59,6 +148,10 @@ class _ServicePageState extends State<ServicePage> {
                 height: MediaQuery.of(context).size.height * 0.7,
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [enrollButton],
+            ),
             ListTile(
               title: Container(
                 decoration: BoxDecoration(
@@ -79,7 +172,9 @@ class _ServicePageState extends State<ServicePage> {
                                   fontWeight: FontWeight.w700, fontSize: 30),
                             ),
                             Text(
-                              service_info['organization_name']?? "123",
+                              (service_info['organization_name'] ?? "123") +
+                                  " > " +
+                                  (service_info['area_name'] ?? "123"),
                               style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 14,
@@ -95,9 +190,12 @@ class _ServicePageState extends State<ServicePage> {
                                   children: [
                                     Icon(Icons.people_outline),
                                     Text(
-                                        service_info['amount_of_requests']?? "123" +
+                                        (service_info['amount_of_requests'] ??
+                                                "0") +
                                             "/" +
-                                            service_info['amount_of_customers']?? "123",
+                                            (service_info[
+                                                    'amount_of_customers'] ??
+                                                "0"),
                                         style: TextStyle(
                                             fontWeight: FontWeight.w700)),
                                   ],
@@ -109,7 +207,7 @@ class _ServicePageState extends State<ServicePage> {
                                   children: [
                                     Icon(Icons.watch_later_outlined),
                                     Text(
-                                      service_info['training_start']?? "123",
+                                      service_info['training_start'] ?? "0",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700),
                                     )
@@ -122,7 +220,7 @@ class _ServicePageState extends State<ServicePage> {
                                   children: [
                                     Icon(Icons.timelapse_outlined),
                                     Text(
-                                      service_info['duration']?? "123",
+                                      service_info['duration'] ?? "0",
                                       style: TextStyle(
                                           fontWeight: FontWeight.w700),
                                     ),
@@ -136,63 +234,40 @@ class _ServicePageState extends State<ServicePage> {
                             ),
                           ]),
                     ),
-                    Row(
-                      children: [Text(service_info['provider_name']?? "123")],
+                  ],
+                ),
+              ),
+            ),
+            ListTile(
+              title: Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white),
+                padding: EdgeInsets.all(30),
+                child: Column(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          backgroundImage: NetworkImage(
+                              service_info['provider_photo'] ?? ""),
+                          radius: MediaQuery.of(context).size.width * 0.2,
+                        ),
+                        Text(
+                          service_info['provider_name'] ?? "0",
+                          style: TextStyle(fontWeight: FontWeight.w700),
+                        )
+                      ],
                     )
                   ],
                 ),
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                service_info['is_enrolled'] != null
-                    ? TextButton(
-                        onPressed: (() {
-                          cancelEnrollTraining(widget.schedule_id);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          
-                        }),
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          child: Text(
-                            "Отменить",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              gradient: LinearGradient(colors: [
-                                Color(0xFF9DFBC8),
-                                Color(0xFF788CB6)
-                              ])),
-                        ))
-                    : TextButton(
-                        onPressed: (() {
-                          enrollTraining(widget.schedule_id);
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                          
-                        }),
-                        child: Container(
-                          padding: EdgeInsets.all(20),
-                          child: Text(
-                            "Записаться",
-                            style: TextStyle(color: Colors.white, fontSize: 20),
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              gradient: LinearGradient(colors: [
-                                Color(0xFFF9D976),
-                                Color(0xFFF5D020)
-                              ])),
-                        ))
-              ],
-            )
           ],
-        )
+        ),
+        reasons
       ],
-    )  :Text("123")
-);
+    ));
   }
 }

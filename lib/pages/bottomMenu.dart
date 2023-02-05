@@ -2,6 +2,7 @@ import 'package:doro/pages/news.dart';
 import 'package:doro/pages/profile.dart';
 import 'package:doro/pages/qr.dart';
 import 'package:doro/pages/rating.dart';
+import 'package:doro/pages/shoppingCarts.dart';
 import 'package:doro/pages/storePage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
@@ -16,30 +17,75 @@ class BottomMenu extends StatefulWidget {
 }
 
 class _BottomMenuState extends State<BottomMenu> {
+  static List<Map<String, dynamic>> _pages = [];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    initializeBottomMenu();
   }
 
-  static List<Map<String, dynamic>> _pages = <Map<String, dynamic>>[
-    {"widget": News(), "title": "Новости"},
-    {"widget": Rating(), "title": "Рейтинг"},
+  void initializeBottomMenu() {
+    setState(() {
+      _pages = <Map<String, dynamic>>[
+        {"widget": News(), "title": "Новости"},
+        {"widget": Rating(), "title": "Рейтинг"},
+        {
+          "widget": QR(),
+        },
+        {
+          "widget": StorePage(),
+          "title": "Магазин",
+          "actions": [
+            IconButton(
+                onPressed: (() {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ShoppingCarts(),
+                    ),
+                  );
+                }),
+                icon: Icon(Icons.shopping_cart, color: Colors.black,))
+          ]
+        },
+        {
+          "widget": Profile(),
+          "title": "Мой профиль",
+          // "actions": [IconButton(onPressed: null, icon: Icon(Icons.settings))]
+        },
+      ];
+    });
+  }
 
-    {
-      "widget": QR(),
-    },
-    {
-      "widget": StorePage(),
-      "title": "Магазин",
-      // "actions": [IconButton(onPressed: null, icon: Icon(Icons.shopping_cart))]
-    },
-    {
-      "widget": Profile(),
-      "title": "Мой профиль",
-      "actions": [IconButton(onPressed: null, icon: Icon(Icons.settings))]
-    },
-  ];
+  // static List<Map<String, dynamic>> _pages = <Map<String, dynamic>>[
+  //   {"widget": News(), "title": "Новости"},
+  //   {"widget": Rating(), "title": "Рейтинг"},
+  //   {
+  //     "widget": QR(),
+  //   },
+  //   {
+  //     "widget": StorePage(),
+  //     "title": "Магазин",
+  //     "actions": [
+  //       IconButton(
+  //           onPressed: (() {
+  //             Navigator.push(
+  //               context,
+  //               MaterialPageRoute(
+  //                 builder: (context) => ShoppingCarts(),
+  //               ),
+  //             );
+  //           }),
+  //           icon: Icon(Icons.shopping_cart))
+  //     ]
+  //   },
+  //   {
+  //     "widget": Profile(),
+  //     "title": "Мой профиль",
+  //     // "actions": [IconButton(onPressed: null, icon: Icon(Icons.settings))]
+  //   },
+  // ];
   int _selectedIndex = 0; //New
   void _onItemTapped(int index) {
     setState(() {
@@ -55,7 +101,7 @@ class _BottomMenuState extends State<BottomMenu> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-          actions: _pages[_selectedIndex]["actions"]??[],
+          actions: _pages[_selectedIndex]["actions"] ?? [],
           automaticallyImplyLeading: false,
           shape: ContinuousRectangleBorder(
               borderRadius: BorderRadius.circular(10)),
@@ -109,7 +155,13 @@ class _BottomMenuState extends State<BottomMenu> {
               label: 'Рейтинг',
             ),
             BottomNavigationBarItem(
-              icon: CircleAvatar(child: Icon(Icons.qr_code_rounded, color: Colors.white,), backgroundColor: Colors.amber,),
+              icon: CircleAvatar(
+                child: Icon(
+                  Icons.qr_code_rounded,
+                  color: Colors.white,
+                ),
+                backgroundColor: Colors.amber,
+              ),
               label: 'qr',
             ),
             BottomNavigationBarItem(

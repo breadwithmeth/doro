@@ -120,7 +120,6 @@ class _ProfileState extends State<Profile> {
   Future<void> buildServices() async {
     List<dynamic>? res = await getSubscriptionsCustomer();
     List<Widget> listOfServices = [];
-    print(res);
     if (res != null) {
       res.forEach((element) {
         print(element);
@@ -137,34 +136,32 @@ class _ProfileState extends State<Profile> {
                     bottomRight: Radius.circular(60))),
             margin: EdgeInsets.symmetric(vertical: 2),
             padding: EdgeInsets.all(7),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
+            child: 
                 Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      element["name"],
-                      style:
-                          TextStyle(fontWeight: FontWeight.w700, fontSize: 15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          element["name"],
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 15),
+                        ),
+                        element["unlimited"] == "2"?
+                        Text(
+                          element["amount_of_vasted"] + "/" + element["amount_of_visits"],
+                          style: TextStyle(
+                              fontWeight: FontWeight.w700, fontSize: 15),
+                        ):Text("Безлимитный"),
+                      ],
                     ),
+                    Text("до " + element["exploration_date"])
                   ],
                 ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              TrainingPage(Training: element)),
-                    );
-                  },
-                  icon: Icon(Icons.arrow_forward_ios_rounded),
-                )
-              ],
-            )));
+                
+            ));
       });
       setState(() {
         if (listOfServices.length != 0) {
@@ -255,7 +252,6 @@ class _ProfileState extends State<Profile> {
                                   fontFamily: "Noto Emoji",
                                 ),
                               ),
-                              
                               OutlinedButton(
                                   onPressed: () {
                                     Navigator.push(

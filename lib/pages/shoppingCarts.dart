@@ -12,8 +12,8 @@ class ShoppingCarts extends StatefulWidget {
 }
 
 class _ShoppingCartsState extends State<ShoppingCarts> {
-  Widget _shopping_carts = Container(
-    child: Text("123"),
+  Widget _shopping_carts = Center(
+    child: CircularProgressIndicator(color: Colors.yellow, backgroundColor: Colors.amber, strokeWidth: 5,),
   );
 
   Future<void> getShoppingCarts() async {
