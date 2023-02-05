@@ -21,6 +21,8 @@ class _ServicePageState extends State<ServicePage> {
     ),
   );
   Widget reasons = Container();
+  Widget reasonsTemporary = Container();
+
   Map<String, dynamic> service_info = {};
   NetworkImage image1 =
       NetworkImage("https://source.unsplash.com/random/?sport");
@@ -32,35 +34,42 @@ class _ServicePageState extends State<ServicePage> {
     List reasonsT = temp['reasons'];
     List<Widget> tempReasons = [];
     reasonsT.forEach((element) {
-      tempReasons.add(Container(
-          margin: EdgeInsets.all(5),
-          width: MediaQuery.of(context).size.width * 0.8,
-          padding: EdgeInsets.all(10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(30))),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      tempReasons.add(TextButton(
+          onPressed: (() {
+            enrollTraining(widget.schedule_id, element["order_id"], element["type"]);
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }),
+          child: Container(
+              margin: EdgeInsets.all(5),
+              width: MediaQuery.of(context).size.width * 0.8,
+              padding: EdgeInsets.all(10),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(Radius.circular(30))),
+              child: Column(
                 children: [
-                  Text(
-                    element['name'] + "#" + element['order_id'],
-                    style: TextStyle(color: Colors.black),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        element['name'] + "#" + element['order_id'],
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      element['unlimited'] == "1"
+                          ? Text("Безлимитный")
+                          : Container()
+                    ],
                   ),
-                  element['unlimited'] == "1"
-                      ? Text("Безлимитный")
-                      : Container()
+                  Row(
+                    children: [Text("до " + element['exploration_date'])],
+                  )
                 ],
-              ),
-            Row(children: [Text("до "+element['exploration_date'])],)
-            
-            ],
-          )));
+              ))));
     });
     setState(() {
-      reasons = Container(
+      reasonsTemporary = Container(
         alignment: Alignment.center,
         width: double.infinity,
         height: double.infinity,
@@ -92,13 +101,11 @@ class _ServicePageState extends State<ServicePage> {
               ))
           : TextButton(
               onPressed: (() {
-                // setState(() {
-                //   enrollButton = Column(children: reasons);
-                // });
+                setState(() {
+                  reasons = reasonsTemporary;
+                });
 
-                // enrollTraining(widget.schedule_id);
-                // Navigator.pop(context);
-                // Navigator.pop(context);
+                
               }),
               child: Container(
                 padding: EdgeInsets.all(20),

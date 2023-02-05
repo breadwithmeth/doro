@@ -238,12 +238,12 @@ Future<int> joinTraining(String training_id) async {
   return response.statusCode;
 }
 
-Future<int> enrollTraining(String schedule_id) async {
+Future<int> enrollTraining(String schedule_id,String order_id, String type) async {
   final prefs = await SharedPreferences.getInstance();
   var url = Uri.https(URL_API, '/api/service/enrollService.php');
   var response = await http.post(
     url,
-    body: json.encode({"schedule_id": schedule_id}),
+    body: json.encode({"schedule_id": schedule_id, "order_id":order_id, "type":type}),
     headers: {
       "Content-Type": "application/json",
       "AUTH": prefs.getString('token')!
