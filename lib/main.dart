@@ -1,5 +1,7 @@
 import 'package:doro/pages/bottomMenu.dart';
 import 'package:doro/pages/login.dart';
+import 'package:doro/pages/poll.dart';
+import 'package:doro/utils/api.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -8,13 +10,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'utils/colors.dart';
 
-
-
-
-
-
 void main() async {
-Intl.defaultLocale = 'ru_RU';
+  Intl.defaultLocale = 'ru_RU';
   initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
@@ -27,19 +24,41 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   bool isLoggedIn = false;
-  Widget redir = Login();
-
+  Widget redir = 
+  Scaffold(
+  body: 
+  Center(child: CircularProgressIndicator(color: Colors.yellow),)
+  );
 
   Future<void> checkIfUserLoggedIn() async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token') ?? false;
     print(token);
     if (token != false) {
+      Map<String, dynamic> poll = await checkPolls();
+      if (poll['questions'].length != 0) {
+        setState(() {
+          redir = Poll(
+            poll: poll,
+          );
+        });
+      } else {
+        print("no polls");
+        setState(() {
+          redir = BottomMenu();
+        });
+      }
+    } else {
       setState(() {
-        redir = BottomMenu();
+        redir = Login();
       });
-      redir = BottomMenu();
     }
+  }
+
+  Future<Map<String, dynamic>> checkPolls() async {
+    Map<String, dynamic> poll = await getPoll();
+
+    return poll;
   }
 
   @override
@@ -47,8 +66,6 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     checkIfUserLoggedIn();
   }
-
-
 
   @override
   Widget build(BuildContext context) {

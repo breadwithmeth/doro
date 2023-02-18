@@ -52,11 +52,13 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              elementDet['name'],
+
+                              elementDet['name'] ?? "0",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 15,
+                                  fontSize: 10,
                                   color: Colors.grey),
+                                  softWrap: true,
                             ),
                             Text(
                               "x",
@@ -66,10 +68,10 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                   color: Colors.grey),
                             ),
                             Text(
-                              elementDet['amount'],
+                              elementDet['amount'] ?? "0",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
-                                  fontSize: 15,
+                                  fontSize: 10,
                                   color: Colors.grey),
                             )
                           ],
@@ -77,7 +79,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                         Row(
                           children: [
                             Text(
-                              elementDet['price'],
+                              elementDet['price'] ?? "0",
                               style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 15,
@@ -99,7 +101,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 Text(
-                  elementDet['price_total'],
+                  elementDet['price_total'] ?? "0",
                   style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 20,
@@ -185,6 +187,7 @@ class _ShoppingCartsState extends State<ShoppingCarts> {
                                   children: [
                                     Icon(Icons.person_outline),
                                     Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
                                         Text(
                                           element['last_name'],
