@@ -246,9 +246,9 @@ class _ProfileState extends State<Profile> {
                             mainAxisSize: MainAxisSize.max,
                             children: [
                               Text(
-                                "🐛🐛\n🐛🐛",
+                                "🐛",
                                 style: TextStyle(
-                                  fontSize: 70,
+                                  fontSize: 20,
                                   fontFamily: "Noto Emoji",
                                 ),
                               ),

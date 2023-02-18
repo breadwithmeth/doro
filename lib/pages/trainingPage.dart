@@ -168,7 +168,7 @@ class _ServicePageState extends State<ServicePage> {
                 child: Column(
                   children: [
                     Container(
-                      height: MediaQuery.of(context).size.height * 0.1,
+                      padding: EdgeInsets.all(10),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
