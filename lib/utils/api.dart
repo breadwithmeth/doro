@@ -436,4 +436,20 @@ Future<int> sendPollAnswers(List<String> answers) async {
   // Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
   return response.statusCode;
 }
+
+Future<int> visitService(String session_id) async {
+  final prefs = await SharedPreferences.getInstance();
+  var url = Uri.https(URL_API, '/api/service/visitService.php');
+  var response = await http.post(
+    url,
+    body: json.encode({"session_id": session_id}),
+    headers: {
+      "Content-Type": "application/json",
+      "AUTH": prefs.getString('token')!
+    },
+  );
+  print(response.statusCode);
+  // print(response.body);
+  return response.statusCode;
+}
 // {"service_id":"3","name":"123","description":"1234","area_id":"1","provider_id":"2","worker_id":"1","service_timestamp":"2022-11-24 16:09:42","category_id":"3","provider_fee":"0","isDeleted":"0","price":"12","validity":"1","amount_of_customers":"13","type":"sell_service"}

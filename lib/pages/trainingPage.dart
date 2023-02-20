@@ -6,8 +6,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
 class ServicePage extends StatefulWidget {
-  const ServicePage({super.key, required this.schedule_id});
+  const ServicePage({super.key, required this.schedule_id, this.visit = false});
   final String schedule_id;
+  final bool visit;
   @override
   State<ServicePage> createState() => _ServicePageState();
 }
@@ -22,7 +23,7 @@ class _ServicePageState extends State<ServicePage> {
   );
   Widget reasons = Container();
   Widget reasonsTemporary = Container();
-
+  Widget visitButton = Container();
   Map<String, dynamic> service_info = {};
   NetworkImage image1 =
       NetworkImage("https://source.unsplash.com/random/?sport");
@@ -36,7 +37,8 @@ class _ServicePageState extends State<ServicePage> {
     reasonsT.forEach((element) {
       tempReasons.add(TextButton(
           onPressed: (() {
-            enrollTraining(widget.schedule_id, element["order_id"], element["type"]);
+            enrollTraining(
+                widget.schedule_id, element["order_id"], element["type"]);
             Navigator.pop(context);
             Navigator.pop(context);
           }),
@@ -80,6 +82,31 @@ class _ServicePageState extends State<ServicePage> {
             )),
       );
       service_info = temp;
+      visitButton = widget.visit == true
+          ? TextButton(
+              onPressed: (() {
+                if (service_info['session_id'] != null) {
+                  visitService(service_info['session_id']);
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+                } else {
+                  null;
+                }
+              }),
+              child: Container(
+                padding: EdgeInsets.all(20),
+                child: Text(
+                  "Отметить посещение",
+                  style: TextStyle(color: Colors.white, fontSize: 20),
+                ),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    gradient: LinearGradient(colors: [
+                      Color.fromARGB(255, 160, 251, 157),
+                      Color.fromARGB(255, 28, 231, 10)
+                    ])),
+              ))
+          : Container();
       image1 = NetworkImage("https://source.unsplash.com/random/?sport");
       enrollButton = service_info['is_enrolled'] != null
           ? TextButton(
@@ -104,8 +131,6 @@ class _ServicePageState extends State<ServicePage> {
                 setState(() {
                   reasons = reasonsTemporary;
                 });
-
-                
               }),
               child: Container(
                 padding: EdgeInsets.all(20),
@@ -157,7 +182,7 @@ class _ServicePageState extends State<ServicePage> {
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [enrollButton],
+              children: [enrollButton, visitButton],
             ),
             ListTile(
               title: Container(

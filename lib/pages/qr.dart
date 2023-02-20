@@ -5,6 +5,8 @@ import 'package:doro/pages/buyRecipe.dart';
 import 'package:doro/pages/buyService.dart';
 import 'package:doro/pages/buyShoppingCart.dart';
 import 'package:doro/pages/joinTraining.dart';
+import 'package:doro/pages/servicePage.dart';
+import 'package:doro/pages/trainingPage.dart';
 import 'package:doro/utils/api.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
@@ -45,18 +47,7 @@ class _QRState extends State<QR> {
                       ),
                     ),
                   );
-                } else if (data['qr_type'] == "start_training") {
-                  print(data);
-                  cameraController.stop();
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => JoinTraining(
-                        data: data,
-                      ),
-                    ),
-                  );
-                }else if (data['qr_type'] == "sell_recipe") {
+                }  else if (data['qr_type'] == "sell_recipe") {
                   print(data);
                   cameraController.stop();
                   Navigator.push(
@@ -67,7 +58,7 @@ class _QRState extends State<QR> {
                       ),
                     ),
                   );
-                }else if (data['qr_type'] == "sell_cart") {
+                } else if (data['qr_type'] == "sell_cart") {
                   print(data);
                   cameraController.stop();
                   Navigator.push(
@@ -75,6 +66,18 @@ class _QRState extends State<QR> {
                     MaterialPageRoute(
                       builder: (context) => BuyShoppingCart(
                         data: data,
+                      ),
+                    ),
+                  );
+                } else if (data['qr_type'] == "start_training") {
+                  print(data);
+                  cameraController.stop();
+                  print(data);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ServicePage(
+                        schedule_id:data['schedule_id'], visit:true
                       ),
                     ),
                   );
